@@ -17,4 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// トップページ
 Route::get('/home', 'HomeController@index')->name('home');
+
+// カテゴリ一覧ページ
+// index,create,store,show,edit,destroy
+Route::resource('categories', 'CategoriesController');
