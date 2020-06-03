@@ -20,6 +20,10 @@ Auth::routes();
 // トップページ
 Route::get('/home', 'HomeController@index')->name('home');
 
-// カテゴリ一覧ページ
+// カテゴリリソース
 // index,create,store,show,edit,destroy
 Route::resource('categories', 'CategoriesController');
+
+// 記事リソース
+// index,create,store,show,edit,destroy
+Route::resource('posts', 'PostsController');
