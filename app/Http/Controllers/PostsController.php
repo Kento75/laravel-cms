@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\posts\CreatePostsRequest;
+
+use App\Post;
 
 class PostsController extends Controller
 {
@@ -13,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index');
+        return view('posts.index')->with('posts', Post::all());
     }
 
     /**
@@ -32,9 +35,21 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatePostsRequest $request)
     {
-        //
+        // public/posts/xxxx.png　で保存
+        $image = $request->image->store('posts');
+
+        Post::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'content' => $request->content,
+            'image' => $image
+        ]);
+
+        session()->flash('success', 'Post created successfully.');
+
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -77,8 +92,12 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        session()->flash('success', 'Post deleted successfully.');
+
+        return redirect(route('posts.index'));
     }
 }
