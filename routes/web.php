@@ -27,3 +27,6 @@ Route::resource('categories', 'CategoriesController');
 // 記事リソース
 // index,create,store,show,edit,destroy
 Route::resource('posts', 'PostsController');
+
+// 削除済み記事一覧
+Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
