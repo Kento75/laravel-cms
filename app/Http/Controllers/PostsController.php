@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\posts\CreatePostsRequest;
-
 use App\Post;
 
 class PostsController extends Controller
@@ -96,8 +96,13 @@ class PostsController extends Controller
     {
         $post = Post::withTrashed()->where('id', $id)->firstOrFail();
 
+        // 物理削除
         if ($post->trashed()) {
+            // イメージ削除
+            Storage::delete($post->image);
             $post->forceDelete();
+
+        // 論理削除
         } else {
             $post->delete();
         }
