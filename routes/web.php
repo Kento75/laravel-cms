@@ -30,3 +30,5 @@ Route::resource('posts', 'PostsController');
 
 // 削除済み記事一覧
 Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
+// 削除済み記事の復元
+Route::put('restore-post/{post}', 'PostsController@restore')->name('restore-posts');

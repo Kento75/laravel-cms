@@ -139,4 +139,15 @@ class PostsController extends Controller
         $trashed = Post::onlyTrashed()->get();
         return view('posts.index')->with('posts', $trashed);
     }
+
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+
+        $post->restore();
+        session()->flash('success', 'Post restored successfully.');
+
+        // 削除済み記事一覧にback
+        return redirect()->back();
+    }
 }
