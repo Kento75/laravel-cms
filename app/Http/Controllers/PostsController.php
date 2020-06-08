@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\posts\CreatePostsRequest;
+use App\Http\Requests\posts\UpdatePostsRequest;
 use App\Post;
 
 class PostsController extends Controller
@@ -70,9 +71,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.create')->with('post', $post);
     }
 
     /**
@@ -82,9 +83,25 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostsRequest $request, Post $post)
     {
-        //
+        $data = $request->only(['title', 'description', 'published_at', 'content']);
+
+        // 新規イメージがある場合
+        if ($request->hasFile('image')) {
+            // イメージをアップロード
+            $image = $request->image->store('posts');
+            // 旧イメージを削除
+            $post->deleteImage();
+
+            $data['image'] = $image;
+        }
+
+        $post->update($data);
+
+        session()->flash('success', 'Post updated successfully.');
+
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -119,8 +136,7 @@ class PostsController extends Controller
      */
     public function trashed()
     {
-        $trashed = Post::withTrashed()->get();
-
+        $trashed = Post::onlyTrashed()->get();
         return view('posts.index')->with('posts', $trashed);
     }
 }
