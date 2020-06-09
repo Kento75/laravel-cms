@@ -26,7 +26,8 @@ class UpdatePostsRequest extends FormRequest
         return [
             'title' => 'required | unique:posts',
             'description' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'category' => 'required'
         ];
     }
 }
