@@ -17,18 +17,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// トップページ
-Route::get('/home', 'HomeController@index')->name('home');
+// ログイン必須
+Route::middleware(['auth'])->group(function() {
+    // トップページ
+    Route::get('/home', 'HomeController@index')->name('home');
 
-// カテゴリリソース
-// index,create,store,show,edit,destroy
-Route::resource('categories', 'CategoriesController');
+    // カテゴリリソース
+    // index,create,store,show,edit,destroy
+    Route::resource('categories', 'CategoriesController');
 
-// 記事リソース
-// index,create,store,show,edit,destroy
-Route::resource('posts', 'PostsController');
+    // 記事リソース
+    // index,create,store,show,edit,destroy
+    Route::resource('posts', 'PostsController');
 
-// 削除済み記事一覧
-Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
-// 削除済み記事の復元
-Route::put('restore-post/{post}', 'PostsController@restore')->name('restore-posts');
+    // 削除済み記事一覧
+    Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
+    // 削除済み記事の復元
+    Route::put('restore-post/{post}', 'PostsController@restore')->name('restore-posts');
+});
