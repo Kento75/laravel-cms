@@ -29,9 +29,13 @@
                                 {{$post->title}}
                                 </td>
                                 <td>
-                                    <a href="{{route('categories.edit', $post->category->id)}}">
-                                        {{$post->category->name}}
-                                    </a>
+                                    @if (isset($post->category->id))
+                                        <a href="{{route('categories.edit', $post->category->id)}}">
+                                            {{$post->category->name}}
+                                        </a>
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 @if($post->trashed())
                                     <td>

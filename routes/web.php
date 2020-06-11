@@ -30,6 +30,9 @@ Route::middleware(['auth'])->group(function() {
     // index,create,store,show,edit,destroy
     Route::resource('posts', 'PostsController');
 
+    // タグリソース
+    Route::resource('tags', 'TagsController');
+
     // 削除済み記事一覧
     Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
     // 削除済み記事の復元
