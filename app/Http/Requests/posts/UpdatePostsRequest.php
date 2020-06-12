@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Posts;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePostsRequest extends FormRequest
@@ -24,7 +25,10 @@ class UpdatePostsRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required | unique:posts',
+            'title' => [
+                'required',
+                Rule::unique('posts', 'title')->ignore($this->post)
+            ],
             'description' => 'required',
             'content' => 'required',
             'category' => 'required'
