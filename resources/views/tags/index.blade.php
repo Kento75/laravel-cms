@@ -36,7 +36,7 @@
             @endif
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <form action="" method="POST" id="deleteCategoryForm">
+                    <form action="" method="POST" id="deleteTagForm">
                         @csrf
                         @method('DELETE')
                         <div class="modal-content">
@@ -66,8 +66,8 @@
 @section('scripts')
     <script>
         function handleDelete(id) {
-            var form = document.getElementById('deleteCategoryForm');
-            form.action = '/categories/' + id;
+            var form = document.getElementById('deleteTagForm');
+            form.action = '/tags/' + id;
             $('#deleteModal').modal('show');
         }
     </script>
