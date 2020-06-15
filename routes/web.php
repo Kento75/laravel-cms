@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // ログイン必須
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth'])->group(function () {
     // トップページ
     Route::get('/home', 'HomeController@index')->name('home');
 
@@ -37,4 +37,10 @@ Route::middleware(['auth'])->group(function() {
     Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
     // 削除済み記事の復元
     Route::put('restore-post/{post}', 'PostsController@restore')->name('restore-posts');
+});
+
+// 管理者ルート
+Route::middleware(['auth', 'admin'])->group(function () {
+    // 管理者画面トップ
+    Route::get('users', 'UsersController@index')->name('users.index');
 });
