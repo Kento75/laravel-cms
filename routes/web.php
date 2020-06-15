@@ -43,4 +43,6 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     // 管理者画面トップ
     Route::get('users', 'UsersController@index')->name('users.index');
+    // ユーザー更新(Admin付与)
+    Route::post('users/{user}/make-admin', 'UsersController@makeAdmin')->name('users.make-admin');
 });
