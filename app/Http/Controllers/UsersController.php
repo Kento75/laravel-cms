@@ -5,9 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\Http\Requests\Users\UpdateProfileRequest;
 
 class UsersController extends Controller
 {
+    // プロフィール更新画面
+    public function edit()
+    {
+        return view('users.edit')->with('user', auth()->user());
+    }
+
+    public function update(UpdateProfileRequest $request)
+    {
+        $user = auth()->user();
+        $user->update([
+            'name' => $request->name,
+            'about' => $request->about
+        ]);
+
+        session()->flash('success', 'User Updated successfully.');
+
+        return redirect()->back();
+    }
+
     // 管理者画面トップ
     public function index()
     {

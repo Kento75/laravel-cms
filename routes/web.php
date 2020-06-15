@@ -41,6 +41,10 @@ Route::middleware(['auth'])->group(function () {
 
 // 管理者ルート
 Route::middleware(['auth', 'admin'])->group(function () {
+    // プロフィール更新画面
+    Route::get('users/profile', 'UsersController@edit')->name('users.edit-profile');
+    Route::put('users/profile', 'UsersController@update')->name('users.update-profile');
+
     // 管理者画面トップ
     Route::get('users', 'UsersController@index')->name('users.index');
     // ユーザー更新(Admin付与)
