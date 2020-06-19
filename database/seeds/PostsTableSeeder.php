@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\Post;
 use App\Category;
 use App\Tag;
+use App\User;
 
 class PostsTableSeeder extends Seeder
 {
@@ -26,36 +28,56 @@ class PostsTableSeeder extends Seeder
             'name' => 'Partnership'
         ]);
 
+        $author1 = User::create([
+            'name' => 'John Doe',
+            'email' => 'John@gmail.com',
+            'password' => Hash::make('password')
+        ]);
+
+        $author2 = User::create([
+            'name' => 'Hoge Hogeta',
+            'email' => 'Hoge@gmail.com',
+            'password' => Hash::make('password')
+        ]);
+
+        $author3 = User::create([
+            'name' => 'Kento Takano',
+            'email' => 'kento2github@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin'
+        ]);
+
         $post1 = Post::create([
             'title' => 'We relocated our office to a new designed garage',
             'description' => 'TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.',
             'content' => 'TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.',
             'category_id' => $category1->id,
-            'image' => 'posts/1.jpg'
+            'image' => 'posts/1.jpg',
+            'user_id' => $author1->id
         ]);
 
-        $post2 = Post::create([
+        $post2 = $author2->posts()->create([
             'title' => 'Top 5 brilliant content marketing strategies',
             'description' => 'TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.',
             'content' => 'TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.',
             'category_id' => $category2->id,
-            'image' => 'posts/2.jpg'
+            'image' => 'posts/2.jpg',
             ]);
 
-        $post3 = Post::create([
+        $post3 = $author1->posts()->create([
             'title' => 'Best practices for minimalist design with example',
             'description' => 'TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.',
             'content' => 'TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.',
             'category_id' => $category3->id,
-            'image' => 'posts/3.jpg'
+            'image' => 'posts/3.jpg',
             ]);
 
-        $post4 = Post::create([
+        $post4 = $author3->posts()->create([
             'title' => 'Congratulate and thank to Maryam for joining our team',
             'description' => 'TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.',
             'content' => 'TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.',
             'category_id' => $category2->id,
-            'image' => 'posts/4.jpg'
+            'image' => 'posts/4.jpg',
             ]);
 
         $tag1 = Tag::create([
