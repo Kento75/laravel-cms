@@ -54,7 +54,7 @@ class PostsController extends Controller
             'image' => $image,
             'published_at' => $request->published_at,
             'category_id' => $request->category,
-            'user_id' => $auth()->user()->id
+            'user_id' => $request->user()->id
         ]);
 
         // tagを選択している場合
