@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\posts\CreatePostsRequest;
@@ -98,8 +99,8 @@ class PostsController extends Controller
      */
     public function update(UpdatePostsRequest $request, Post $post)
     {
-        $data = $request->only(['title', 'description', 'published_at', 'content']);
-
+        $data = $request->only(['title', 'description', 'content']);
+        $data['published_at'] = Carbon::createFromFormat('Y-m-d H:i', $request->published_at);
         // 新規イメージがある場合
         if ($request->hasFile('image')) {
             // イメージをアップロード

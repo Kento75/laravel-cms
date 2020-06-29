@@ -9,6 +9,10 @@ class Post extends Model
 {
     use SoftDeletes;
 
+    protected $dates = [
+        'published_at',
+    ];
+
     protected $fillable = [
         'title',
         'description',
@@ -47,5 +51,24 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // 現在日時より前の記事のみ取得
+    // (投稿日前の記事は表示しないロジック)
+    public function scopePublished($query)
+    {
+        return $query->where('published_at', '<=', now());
+    }
+
+    public function scopeSearched($query)
+    {
+        $search = \request()->query('search');
+
+        // クエリがない場合はそのまま
+        if (!$search) {
+            return $query->published();
+        }
+
+        return $query->published()->where('title', 'LIKE', "%{$search}%");
     }
 }
